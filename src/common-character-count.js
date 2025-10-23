@@ -12,7 +12,7 @@ const { NotImplementedError } = require("../lib");
  * Strings have 3 common characters - 2 "a"s and 1 "c".
  */
 
-function getCommonCharacterCount(s1, s2 ) {
+function getCommonCharacterCount(str1, str2 ) {
   let count = 0;
   const arr1 = str1.split("");
   const arr2 = str2.split("");
