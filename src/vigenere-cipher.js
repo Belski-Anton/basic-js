@@ -1,4 +1,4 @@
-const { NotImplementedError } = require('../lib');
+const { NotImplementedError } = require("../lib");
 
 /**
  * Implement class VigenereCipheringMachine that allows us to create
@@ -20,14 +20,63 @@ const { NotImplementedError } = require('../lib');
  *
  */
 class VigenereCipheringMachine {
-  encrypt() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+  constructor(type = true) {
+    this.isDirect = type;
   }
 
-  decrypt() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+  encrypt(message, key) {
+    if (message === undefined || key === undefined) {
+      throw new Error("Incorrect arguments!");
+    }
+
+    message = message.toUpperCase();
+    key = key.toUpperCase();
+
+    let result = "";
+    let keyIndex = 0;
+
+    for (let i = 0; i < message.length; i++) {
+      const char = message[i];
+      if (char >= "A" && char <= "Z") {
+        const keyChar = key[keyIndex % key.length];
+        const encryptedCharCode =
+          ((char.charCodeAt(0) - 65 + keyChar.charCodeAt(0) - 65) % 26) + 65;
+        result += String.fromCharCode(encryptedCharCode);
+        keyIndex++;
+      } else {
+        result += char;
+      }
+    }
+
+    return this.isDirect ? result : result.split("").reverse().join("");
+  }
+
+  decrypt(message, key) {
+    if (message === undefined || key === undefined) {
+      throw new Error("Incorrect arguments!");
+    }
+
+    message = message.toUpperCase();
+    key = key.toUpperCase();
+
+    let result = "";
+    let keyIndex = 0;
+
+    for (let i = 0; i < message.length; i++) {
+      const char = message[i];
+      if (char >= "A" && char <= "Z") {
+        const keyChar = key[keyIndex % key.length];
+        const decryptedCharCode =
+          ((char.charCodeAt(0) - 65 - (keyChar.charCodeAt(0) - 65) + 26) % 26) +
+          65;
+        result += String.fromCharCode(decryptedCharCode);
+        keyIndex++;
+      } else {
+        result += char;
+      }
+    }
+
+    return this.isDirect ? result : result.split("").reverse().join("");
   }
 }
 
